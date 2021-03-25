@@ -13,3 +13,11 @@ $ npm start or yarn start
 
 ## Project Backend 
 https://github.com/Adarshg315/react-task-backend
+
+
+## For testing
+```bash
+username -> admin1
+password -> admin123
+```
+
