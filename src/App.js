@@ -18,8 +18,10 @@ import Employee from "./components/Employee";
 const App = () => {
 	const [showModeratorBoard, setShowModeratorBoard] = useState(false);
 	const [showAdminBoard, setShowAdminBoard] = useState(false);
+
 	const [currentUser, setCurrentUser] = useState(undefined);
 
+	const isLogIn = localStorage.getItem("isLogIn");
 	useEffect(() => {
 		const user = AuthService.getCurrentUser();
 
@@ -42,22 +44,25 @@ const App = () => {
 				</Link>
 
 				<div className="navbar-nav mr-auto">
-					<li className="nav-item">
-						<Link to={"/employees"} className="nav-link">
-							Employees
-						</Link>
-					</li>
-					<li className="nav-item">
-						<Link to={"/add"} className="nav-link">
-							Add
-						</Link>
-					</li>
+					{showAdminBoard && (
+						<li className="nav-item">
+							<Link to={"/employees"} className="nav-link">
+								Employees
+							</Link>
+						</li>
+					)}
+					{showAdminBoard && (
+						<li className="nav-item">
+							<Link to={"/add"} className="nav-link">
+								Add
+							</Link>
+						</li>
+					)}
 					<li className="nav-item">
 						<Link to={"/home"} className="nav-link">
 							Home
 						</Link>
 					</li>
-
 					{showModeratorBoard && (
 						<li className="nav-item">
 							<Link to={"/mod"} className="nav-link">
@@ -65,7 +70,6 @@ const App = () => {
 							</Link>
 						</li>
 					)}
-
 					{showAdminBoard && (
 						<li className="nav-item">
 							<Link to={"/admin"} className="nav-link">
@@ -73,7 +77,6 @@ const App = () => {
 							</Link>
 						</li>
 					)}
-
 					{currentUser && (
 						<li className="nav-item">
 							<Link to={"/user"} className="nav-link">
@@ -122,9 +125,13 @@ const App = () => {
 					<Route path="/user" component={BoardUser} />
 					<Route path="/mod" component={BoardModerator} />
 					<Route path="/admin" component={BoardAdmin} />
-					<Route exact path={["/", "/employees"]} component={EmployeesList} />
-					<Route exact path="/add" component={AddEmployee} />
-					<Route path="/employees/:id" component={Employee} />
+					<Route
+						exact
+						path="/employees"
+						component={isLogIn ? EmployeesList : Home}
+					/>
+					<Route exact path="/add" component={isLogIn ? AddEmployee : Home} />
+					<Route path="/employees/:id" component={isLogIn ? Employee : Home} />
 				</Switch>
 			</div>
 		</div>
