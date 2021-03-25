@@ -4,18 +4,18 @@ import EmployeeDataService from "../services/EmployeeService";
 const Employee = (props) => {
 	const initialEmployeeState = {
 		_id: null,
-		title: "",
-		description: "",
-		published: false,
+		name: "",
+		empEmail: "",
+		isActive: true,
 	};
 	const [currentEmployee, setCurrentEmployee] = useState(initialEmployeeState);
 	const [message, setMessage] = useState("");
 
 	const getEmployee = (_id) => {
 		EmployeeDataService.get(_id)
-			.then((response) => {
-				setCurrentEmployee(response.data);
-				console.log(response.data);
+			.then((res) => {
+				setCurrentEmployee(res.data);
+				console.log(res.data);
 			})
 			.catch((e) => {
 				console.log(e);
@@ -31,18 +31,18 @@ const Employee = (props) => {
 		setCurrentEmployee({ ...currentEmployee, [name]: value });
 	};
 
-	const updatePublished = (status) => {
+	const updateIsActive = (status) => {
 		var data = {
 			_id: currentEmployee._id,
-			title: currentEmployee.title,
-			description: currentEmployee.description,
-			published: status,
+			name: currentEmployee.name,
+			empEmail: currentEmployee.empEmail,
+			isActive: status,
 		};
 
 		EmployeeDataService.update(currentEmployee._id, data)
-			.then((response) => {
-				setCurrentEmployee({ ...currentEmployee, published: status });
-				console.log(response.data);
+			.then((res) => {
+				setCurrentEmployee({ ...currentEmployee, isActive: status });
+				console.log(res.data);
 			})
 			.catch((e) => {
 				console.log(e);
@@ -50,9 +50,9 @@ const Employee = (props) => {
 	};
 
 	const updateEmployee = () => {
-		EmployeeDataService.update(currentEmployee.id, currentEmployee)
-			.then((response) => {
-				console.log(response.data);
+		EmployeeDataService.update(currentEmployee._id, currentEmployee)
+			.then((res) => {
+				console.log(res.data);
 				setMessage("The employee was updated successfully!");
 			})
 			.catch((e) => {
@@ -62,8 +62,8 @@ const Employee = (props) => {
 
 	const deleteEmployee = () => {
 		EmployeeDataService.remove(currentEmployee._id)
-			.then((response) => {
-				console.log(response.data);
+			.then((res) => {
+				console.log(res.data);
 				props.history.push("/employees");
 			})
 			.catch((e) => {
@@ -78,24 +78,24 @@ const Employee = (props) => {
 					<h4>Employee</h4>
 					<form>
 						<div className="form-group">
-							<label htmlFor="title">Title</label>
+							<label htmlFor="name">Name</label>
 							<input
 								type="text"
 								className="form-control"
-								id="title"
-								name="title"
-								value={currentEmployee.title}
+								id="name"
+								name="name"
+								value={currentEmployee.name}
 								onChange={handleInputChange}
 							/>
 						</div>
 						<div className="form-group">
-							<label htmlFor="description">Description</label>
+							<label htmlFor="empEmail">empEmail</label>
 							<input
 								type="text"
 								className="form-control"
-								id="description"
-								name="description"
-								value={currentEmployee.description}
+								id="empEmail"
+								name="empEmail"
+								value={currentEmployee.empEmail}
 								onChange={handleInputChange}
 							/>
 						</div>
@@ -104,23 +104,23 @@ const Employee = (props) => {
 							<label>
 								<strong>Status:</strong>
 							</label>
-							{currentEmployee.published ? "Published" : "Pending"}
+							{currentEmployee.isActive ? "Active" : "Inactive"}
 						</div>
 					</form>
 
-					{currentEmployee.published ? (
+					{currentEmployee.isActive ? (
 						<button
 							className="badge badge-primary mr-2"
-							onClick={() => updatePublished(false)}
+							onClick={() => updateIsActive(false)}
 						>
-							UnPublish
+							DeActivate
 						</button>
 					) : (
 						<button
 							className="badge badge-primary mr-2"
-							onClick={() => updatePublished(true)}
+							onClick={() => updateIsActive(true)}
 						>
-							Publish
+							Activate
 						</button>
 					)}
 

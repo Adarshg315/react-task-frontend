@@ -6,22 +6,22 @@ const EmployeesList = () => {
 	const [employees, setEmployees] = useState([]);
 	const [currentEmployee, setCurrentEmployee] = useState(null);
 	const [currentIndex, setCurrentIndex] = useState(-1);
-	const [searchTitle, setSearchTitle] = useState("");
+	const [searchName, setSearchName] = useState("");
 
 	useEffect(() => {
 		retrieveEmployees();
 	}, []);
 
-	const onChangeSearchTitle = (e) => {
-		const searchTitle = e.target.value;
-		setSearchTitle(searchTitle);
+	const onChangeSearchName = (e) => {
+		const searchName = e.target.value;
+		setSearchName(searchName);
 	};
 
 	const retrieveEmployees = () => {
 		EmployeeDataService.getAll()
-			.then((response) => {
-				setEmployees(response.data);
-				console.log(response.data);
+			.then((res) => {
+				setEmployees(res.data);
+				console.log(res.data);
 			})
 			.catch((e) => {
 				console.log(e);
@@ -41,8 +41,8 @@ const EmployeesList = () => {
 
 	const removeAllEmployees = () => {
 		EmployeeDataService.removeAll()
-			.then((response) => {
-				console.log(response.data);
+			.then((res) => {
+				console.log(res.data);
 				refreshList();
 			})
 			.catch((e) => {
@@ -50,11 +50,11 @@ const EmployeesList = () => {
 			});
 	};
 
-	const findByTitle = () => {
-		EmployeeDataService.findByTitle(searchTitle)
-			.then((response) => {
-				setEmployees(response.data);
-				console.log(response.data);
+	const findByName = () => {
+		EmployeeDataService.findByName(searchName)
+			.then((res) => {
+				setEmployees(res.data);
+				console.log(res.data);
 			})
 			.catch((e) => {
 				console.log(e);
@@ -68,15 +68,15 @@ const EmployeesList = () => {
 					<input
 						type="text"
 						className="form-control"
-						placeholder="Search by title"
-						value={searchTitle}
-						onChange={onChangeSearchTitle}
+						placeholder="Search by name"
+						value={searchName}
+						onChange={onChangeSearchName}
 					/>
 					<div className="input-group-append">
 						<button
 							className="btn btn-outline-secondary"
 							type="button"
-							onClick={findByTitle}
+							onClick={findByName}
 						>
 							Search
 						</button>
@@ -96,7 +96,7 @@ const EmployeesList = () => {
 								onClick={() => setActiveEmployee(employee, index)}
 								key={index}
 							>
-								{employee.title}
+								{employee.name}
 							</li>
 						))}
 				</ul>
@@ -114,21 +114,21 @@ const EmployeesList = () => {
 						<h4>Employee</h4>
 						<div>
 							<label>
-								<strong>Title:</strong>
+								<strong>Name:</strong>
+								{currentEmployee.name}
 							</label>{" "}
-							{currentEmployee.title}
 						</div>
 						<div>
 							<label>
-								<strong>Description:</strong>
+								<strong>empEmail:</strong>
+								{currentEmployee.empEmail}
 							</label>{" "}
-							{currentEmployee.description}
 						</div>
 						<div>
 							<label>
 								<strong>Status:</strong>
+								{currentEmployee.isActive ? "Active" : "Inactive"}
 							</label>{" "}
-							{currentEmployee.published ? "Published" : "Pending"}
 						</div>
 
 						<Link

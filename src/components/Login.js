@@ -50,9 +50,7 @@ const Login = (props) => {
 				},
 				(error) => {
 					const resMessage =
-						(error.response &&
-							error.response.data &&
-							error.response.data.message) ||
+						(error.res && error.res.data && error.res.data.message) ||
 						error.message ||
 						error.toString();
 

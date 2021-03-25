@@ -4,9 +4,9 @@ import EmployeeDataService from "../services/EmployeeService";
 const AddEmployee = () => {
 	const initialEmployeeState = {
 		_id: null,
-		title: "",
-		description: "",
-		published: false,
+		name: "",
+		empEmail: "",
+		isActive: true,
 	};
 	const [employee, setEmployee] = useState(initialEmployeeState);
 	const [submitted, setSubmitted] = useState(false);
@@ -18,20 +18,20 @@ const AddEmployee = () => {
 
 	const saveEmployee = () => {
 		var data = {
-			title: employee.title,
-			description: employee.description,
+			name: employee.name,
+			empEmail: employee.empEmail,
 		};
 
 		EmployeeDataService.create(data)
-			.then((response) => {
+			.then((res) => {
 				setEmployee({
-					_id: response.data._id,
-					title: response.data.title,
-					description: response.data.description,
-					published: response.data.published,
+					_id: res.data._id,
+					name: res.data.name,
+					empEmail: res.data.empEmail,
+					isActive: res.data.isActive,
 				});
 				setSubmitted(true);
-				console.log(response.data);
+				console.log(res.data);
 			})
 			.catch((e) => {
 				console.log(e);
@@ -55,28 +55,28 @@ const AddEmployee = () => {
 			) : (
 				<div>
 					<div className="form-group">
-						<label htmlFor="title">Title</label>
+						<label htmlFor="name">Name</label>
 						<input
 							type="text"
 							className="form-control"
-							id="title"
+							id="name"
 							required
-							value={employee.title}
+							value={employee.name}
 							onChange={handleInputChange}
-							name="title"
+							name="name"
 						/>
 					</div>
 
 					<div className="form-group">
-						<label htmlFor="description">Description</label>
+						<label htmlFor="empEmail">empEmail</label>
 						<input
 							type="text"
 							className="form-control"
-							id="description"
+							id="empEmail"
 							required
-							value={employee.description}
+							value={employee.empEmail}
 							onChange={handleInputChange}
-							name="description"
+							name="empEmail"
 						/>
 					</div>
 

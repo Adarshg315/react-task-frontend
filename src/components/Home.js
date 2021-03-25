@@ -7,14 +7,12 @@ const Home = () => {
 
 	useEffect(() => {
 		UserService.getPublicContent().then(
-			(response) => {
-				setContent(response.data);
+			(res) => {
+				setContent(res.data);
 			},
 			(error) => {
 				const _content =
-					(error.response && error.response.data) ||
-					error.message ||
-					error.toString();
+					(error.res && error.res.data) || error.message || error.toString();
 
 				setContent(_content);
 			}

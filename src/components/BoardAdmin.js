@@ -7,14 +7,12 @@ const BoardAdmin = () => {
 
 	useEffect(() => {
 		UserService.getAdminBoard().then(
-			(response) => {
-				setContent(response.data);
+			(res) => {
+				setContent(res.data);
 			},
 			(error) => {
 				const _content =
-					(error.response &&
-						error.response.data &&
-						error.response.data.message) ||
+					(error.res && error.res.data && error.res.data.message) ||
 					error.message ||
 					error.toString();
 

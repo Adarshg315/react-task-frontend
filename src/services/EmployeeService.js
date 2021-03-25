@@ -24,18 +24,18 @@ const removeAll = () => {
 	return http.delete(`/employees`);
 };
 
-const findByTitle = (title) => {
-	return http.get(`/employees?title=${title}`);
+const findByName = (name) => {
+	return http.get(`/employees?name=${name}`);
 };
 
-const TutorialDataService = {
+const EmployeeDataService = {
 	getAll,
 	get,
 	create,
 	update,
 	remove,
 	removeAll,
-	findByTitle,
+	findByName,
 };
 
-export default TutorialDataService;
+export default EmployeeDataService;

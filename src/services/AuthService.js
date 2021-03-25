@@ -11,18 +11,20 @@ const register = (username, email, password) => {
 };
 
 const login = async (username, password) => {
-	const response = await axios.post(API_URL + "signin", {
+	const res = await axios.post(API_URL + "signin", {
 		username,
 		password,
 	});
-	if (response.data.accessToken) {
-		localStorage.setItem("user", JSON.stringify(response.data));
+	if (res.data.accessToken) {
+		localStorage.setItem("user", JSON.stringify(res.data));
+		localStorage.setItem("isLogIn", true);
 	}
-	return response.data;
+	return res.data;
 };
 
 const logout = () => {
 	localStorage.removeItem("user");
+	localStorage.removeItem("isLogIn");
 };
 
 const getCurrentUser = () => {
